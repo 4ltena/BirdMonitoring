@@ -1,0 +1,13 @@
+services:
+  bird-yolo:
+    build: .
+    container_name: bird-yolo
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      - YOLO_CONFIG_DIR=/app/ultralytics
+    volumes:
+      - yolo_weights:/app/ultralytics
+volumes:
+  yolo_weights:

@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: bird-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bird_monitor
+      POSTGRES_USER: bird
+      POSTGRES_PASSWORD: bird
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bird -d bird_monitor"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  flask-server:
+    build: ./server
+    container_name: flask-server
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://bird:bird@db/bird_monitor
+
+  bird-yolo:
+    build: ./BirdYolo
+    container_name: bird-yolo
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      - YOLO_CONFIG_DIR=/app/ultralytics
+    volumes:
+      - yolo_weights:/app/ultralytics
+
+volumes:
+  pg_data:
+  yolo_weights:
