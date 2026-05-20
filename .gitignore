@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Docker volumes / runtime
+prometheus_data/
+grafana_data/
+
+# macOS
+.DS_Store
+
+# YOLO weights (large binary)
+*.pt
+
+# Secrets
+*.env
+.env

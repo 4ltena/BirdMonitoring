@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>鳥の状態モニター</title>
+</head>
+<body>
+<h1>鳥の状態モニター</h1>
+
+{% if status %}
+  {% if status.mode == "INSIDE" %}
+    <div style="background:#ccffcc; padding:10px;">カゴ内モード</div>
+  {% elif status.mode == "OUTSIDE" %}
+    <div style="background:#ffcc00; padding:10px;">放鳥中 — ドアを開けるときは足元に注意してください</div>
+  {% endif %}
+  <p>在籍推定:
+    {% if status.bird_detected %}
+      <span style="color:green">● カゴ内に鳥を検知</span>
+    {% else %}
+      <span style="color:gray">○ 検知なし（外にいる可能性）</span>
+    {% endif %}
+  </p>
+{% endif %}
+
+{% if log %}
+  {% set t = log.temp %}
+  {% if 20 <= t <= 28 %}{% set bg = "#ccffcc" %}{% set label = "適切" %}
+  {% elif 15 <= t <= 34 %}{% set bg = "#ffffcc" %}{% set label = "注意" %}
+  {% else %}{% set bg = "#ffcccc" %}{% set label = "危険" %}{% endif %}
+  <p>温度: <span style="background:{{ bg }}; padding:2px 6px;">{{ log.temp }}℃（{{ label }}）</span>
+     　湿度: {{ log.hum }}%　（{{ log.created_at.strftime('%H:%M:%S') }}）</p>
+{% endif %}
+
+<h2>温湿度グラフ</h2>
+<canvas id="myChart" width="600" height="300"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  fetch('/api/sensor_data_list').then(r => r.json()).then(data => {
+    new Chart(document.getElementById('myChart'), {
+      type: 'line',
+      data: {
+        labels: data.map(d => d.time),
+        datasets: [
+          { label: '温度 (℃)', data: data.map(d => d.temp), borderColor: 'rgb(255,99,132)', yAxisID: 'y' },
+          { label: '湿度 (%)',  data: data.map(d => d.hum),  borderColor: 'rgb(54,162,235)', yAxisID: 'y1' }
+        ]
+      },
+      options: {
+        scales: {
+          y:  { position: 'left',  title: { display: true, text: '温度 (℃)' } },
+          y1: { position: 'right', title: { display: true, text: '湿度 (%)' }, grid: { drawOnChartArea: false } }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
