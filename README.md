@@ -1,3 +1,14 @@
+![Version](https://img.shields.io/badge/version-0.5-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![MicroPython](https://img.shields.io/badge/MicroPython-1.23-2B5B84?logo=micropython&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?logo=raspberrypi&logoColor=white)
+![YOLOv8](https://img.shields.io/badge/YOLOv8n-COCO-00FFAA?logo=ultralytics&logoColor=black)
+
 # BirdMonitoring
 
 セキセイインコなどの小鳥の放鳥中に、他の家族が部屋にやってきて、その足で…
